@@ -21,4 +21,14 @@ class MoviesRepository {
       return await localDataSource.getCachedMovies();
     }
   }
+
+  Future<dynamic> getMovieDetails(int id) async {
+    try {
+      final movieDetails = await remoteDataSource.getMovieDetails(id);
+      return movieDetails;
+    } catch (e) {
+      log('Error: $e');
+      throw Exception('Error: $e');
+    }
+  }
 }

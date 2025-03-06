@@ -4,8 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/movies/data/models/movie_model.dart';
-import 'package:movie_app/movies/presentation/movie_cubit/movie_cubit.dart';
-import 'package:movie_app/movies/presentation/movie_cubit/movie_state.dart';
+import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_cubit.dart';
+import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_state.dart';
 import 'package:movie_app/movies/presentation/screens/details_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -35,7 +35,10 @@ class _MoviesScreenState extends State<MoviesScreen> {
       body: BlocBuilder<MoviesCubit, MovieState>(
         builder: (context, state) {
           if (state is MovieLoading) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+              color: Colors.white,
+            ));
           }
           if (state is MovieError) {
             return Center(child: Text(state.message));
@@ -61,7 +64,19 @@ class _MoviesScreenState extends State<MoviesScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsScreen(imgUrl: '', title: '', description: '',)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailsScreen(
+                                      imgUrl:
+                                          'https://image.tmdb.org/t/p/w500${movie.backdropPath}',
+                                      title: movie.title,
+                                      description: movie.overview,
+                                      year: movie.releaseDate.split('-').first,
+                                      rating: (10 - movie.voteAverage)
+                                          .toStringAsFixed(1),
+                                      id: movie.id,
+                                    )));
                       },
                       child: ClipRRect(
                         borderRadius:

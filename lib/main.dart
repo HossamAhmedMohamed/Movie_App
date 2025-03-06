@@ -6,7 +6,7 @@ import 'package:movie_app/movies/data/data_source/hive_adapter.dart';
 import 'package:movie_app/movies/data/data_source/local_data_source.dart';
 import 'package:movie_app/movies/data/repository/movie_repository.dart';
 import 'package:movie_app/movies/data/data_source/remote_data_source.dart';
-import 'package:movie_app/movies/presentation/movie_cubit/movie_cubit.dart';
+import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_cubit.dart';
 import 'package:movie_app/movies/presentation/screens/movies_screen.dart';
 
 void main() async {
