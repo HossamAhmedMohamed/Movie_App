@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/movies/data/repository/movie_repository.dart';
 import 'package:movie_app/movies/data/models/movie_model.dart';
-import 'package:movie_app/movies/presentation/movie_cubit/movie_state.dart';
+import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_state.dart';
 
 class MoviesCubit extends Cubit<MovieState> {
   final MoviesRepository repository;
@@ -21,5 +21,15 @@ class MoviesCubit extends Cubit<MovieState> {
     }
 
     // emit(movies);
+  }
+
+  void fetchMovieDetails(int id) async {
+    try {
+      emit(MovieDetailsLoading());
+      final movieDetails = await repository.getMovieDetails(id);
+      emit(MovieDetailsSuccess(movieDetails));
+    } catch (e) {
+      emit(MovieDetailsError(e.toString()));
+    }
   }
 }

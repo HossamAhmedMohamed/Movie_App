@@ -4,9 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:movie_app/movies/data/data_source/hive_adapter.dart';
 import 'package:movie_app/movies/data/data_source/local_data_source.dart';
+import 'package:movie_app/movies/data/models/genre_model.dart';
+import 'package:movie_app/movies/data/models/movie_model.dart';
 import 'package:movie_app/movies/data/repository/movie_repository.dart';
 import 'package:movie_app/movies/data/data_source/remote_data_source.dart';
-import 'package:movie_app/movies/presentation/movie_cubit/movie_cubit.dart';
+import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_cubit.dart';
 import 'package:movie_app/movies/presentation/screens/movies_screen.dart';
 
 void main() async {
@@ -17,8 +19,10 @@ void main() async {
     localDataSource: LocalDataSource(),
   );
 
-  // await Hive.initFlutter();
-  // Hive.registerAdapter(MovieAdapter());
+  await Hive.initFlutter();
+  Hive.registerAdapter(MovieAdapter());
+  Hive.registerAdapter(MovieModelAdapter());
+  Hive.registerAdapter(GenreModelAdapter());
 
   runApp(BlocProvider(
     create: (context) => MoviesCubit(repository),
