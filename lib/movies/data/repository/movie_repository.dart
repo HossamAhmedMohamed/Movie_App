@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:movie_app/movies/data/models/genre_model.dart';
 import 'package:movie_app/movies/data/models/movie_model.dart';
 
 import '../data_source/local_data_source.dart';
@@ -15,20 +16,22 @@ class MoviesRepository {
     try {
       final movies = await remoteDataSource.fetchPopularMovies();
       log('${movies.length} moviesRepository');
-        // localDataSource.cacheMovies(movies);
+        localDataSource.cacheMovies(movies);
       return movies;
     } catch (e) {
       return await localDataSource.getCachedMovies();
     }
   }
 
-  Future<dynamic> getMovieDetails(int id) async {
+  Future<List<GenreModel>> getMovieDetails(int id) async {
     try {
       final movieDetails = await remoteDataSource.getMovieDetails(id);
+      localDataSource.cacheDetailsMovies(movieDetails );
       return movieDetails;
     } catch (e) {
-      log('Error: $e');
-      throw Exception('Error: $e');
+      return await localDataSource.getDetailsCachedMovies();
+      // log('Error: $e');
+      // throw Exception('Error: $e');
     }
   }
 }

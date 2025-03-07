@@ -1,3 +1,4 @@
+import 'package:movie_app/movies/data/models/genre_model.dart';
 import 'package:movie_app/movies/data/models/movie_model.dart';
 
 sealed class MovieState {}
@@ -21,7 +22,7 @@ final class MovieError extends MovieState {
 final class MovieDetailsLoading extends MovieState {}
 
 final class MovieDetailsSuccess extends MovieState {
-  final dynamic movieDetails;
+  final List<GenreModel> movieDetails;
 
   MovieDetailsSuccess(this.movieDetails);
 }

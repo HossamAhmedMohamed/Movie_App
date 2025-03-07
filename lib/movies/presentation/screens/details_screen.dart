@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/movies/data/models/genre_model.dart';
 import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_cubit.dart';
 import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_state.dart';
 import 'package:shimmer/shimmer.dart';
@@ -29,7 +30,7 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  List<dynamic> genres = [];
+  List<GenreModel> genres = [];
   @override
   void initState() {
     BlocProvider.of<MoviesCubit>(context).fetchMovieDetails(widget.id);
@@ -141,9 +142,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   BlocBuilder<MoviesCubit, MovieState>(
                     builder: (context, state) {
                       if (state is MovieDetailsSuccess) {
-                        genres = state.movieDetails['genres']
-                            .map((genre) => genre['name'])
-                            .toList();
+                        genres = state.movieDetails;
                         log(genres.toString());
                       }
                       return Row(
@@ -157,7 +156,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             ...genres.map((genre) => Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Text(
-                                    genre,
+                                     genre.name,
                                     style: TextStyle(color: Colors.grey),
                                   ),
                                 )),

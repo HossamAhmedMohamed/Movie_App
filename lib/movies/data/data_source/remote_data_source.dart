@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:movie_app/movies/data/models/genre_model.dart';
 import 'package:movie_app/movies/data/models/movie_model.dart';
 
 class RemoteDataSource {
@@ -33,7 +34,7 @@ class RemoteDataSource {
     }
   }
 
-  Future<dynamic> getMovieDetails(int id) async {
+  Future<List<GenreModel>> getMovieDetails(int id) async {
     try {
       final response = await dio.get(
         'https://api.themoviedb.org/3/movie/$id',
@@ -42,14 +43,20 @@ class RemoteDataSource {
 
       if (response.statusCode == 200) {
         final movieDetail = response.data;
-        log('Movie details: $movieDetail');
-        return movieDetail;
+
+         
+        final List<GenreModel> genres = (movieDetail['genres'] as List)
+            .map((genre) => GenreModel.fromJson(genre))
+            .toList();
+
+        log('Extracted genres: ${genres.map((e) => e.name).toList()}');
+        return genres;
       } else {
-        log('Failed to load movie details');
-        throw Exception('Failed to load movie details');
+        log('Failed to load movie genres');
+        throw Exception('Failed to load movie genres');
       }
     } catch (e) {
-      log('Network error: $e');
+      log('Network errooor: $e');
       throw Exception('Network error: $e');
     }
   }
