@@ -1,6 +1,4 @@
-import 'package:hive_flutter/adapters.dart';
-
-class Moviee extends HiveObject {
+class MovieEntity {
   final int id;
   final String title;
   final String overview;
@@ -9,7 +7,7 @@ class Moviee extends HiveObject {
   final double voteAverage;
   final String releaseDate;
 
-  Moviee({
+  MovieEntity({
     required this.id,
     required this.title,
     required this.overview,

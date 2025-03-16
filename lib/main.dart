@@ -1,33 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:movie_app/movies/data/data_source/hive_adapter.dart';
-import 'package:movie_app/movies/data/data_source/local_data_source.dart';
+import 'package:movie_app/core/services/service_locater.dart';
 import 'package:movie_app/movies/data/models/genre_model.dart';
 import 'package:movie_app/movies/data/models/movie_model.dart';
-import 'package:movie_app/movies/data/repository/movie_repository.dart';
-import 'package:movie_app/movies/data/data_source/remote_data_source.dart';
-import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_cubit.dart';
-import 'package:movie_app/movies/presentation/screens/movies_screen.dart';
+import 'package:movie_app/routing/router_generator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final repository = MoviesRepository(
-    remoteDataSource: RemoteDataSource(Dio()),
-    localDataSource: LocalDataSource(),
-  );
-
+  setupServiceLocator();
   await Hive.initFlutter();
-  Hive.registerAdapter(MovieAdapter());
   Hive.registerAdapter(MovieModelAdapter());
   Hive.registerAdapter(GenreModelAdapter());
 
-  runApp(BlocProvider(
-    create: (context) => MoviesCubit(repository),
-    child: MyApp(),
-  ));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -35,11 +21,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: RouterGenerator.mainRouting,
       debugShowCheckedModeBanner: false,
       title: 'Movie App',
       theme: ThemeData.dark(),
-      home: MoviesScreen(),
     );
   }
 }

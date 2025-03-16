@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
-import '../../domain/entities/movie_model.dart';
+import '../../domain/entities/movie_entity.dart';
 
 part 'movie_model.g.dart';
 
 @HiveType(typeId: 1) // استخدم typeId مختلف عن الـ Movie
-class MovieModel extends Moviee {
+class MovieModel extends MovieEntity {
   @HiveField(0)
   final int id;
 
