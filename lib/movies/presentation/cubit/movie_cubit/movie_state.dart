@@ -1,5 +1,5 @@
 import 'package:movie_app/movies/data/models/genre_model.dart';
-import 'package:movie_app/movies/data/models/movie_model.dart';
+import 'package:movie_app/movies/domain/entities/movie_entity.dart';
 
 sealed class MovieState {}
 
@@ -8,9 +8,9 @@ final class MovieInitial extends MovieState {}
 final class MovieLoading extends MovieState {}
 
 final class MovieSuccess extends MovieState {
-  final List<MovieModel> movies;
+  final List<MovieEntity> movies;
 
-  MovieSuccess(this.movies);
+  MovieSuccess({required this.movies});
 }
 
 final class MovieError extends MovieState {
