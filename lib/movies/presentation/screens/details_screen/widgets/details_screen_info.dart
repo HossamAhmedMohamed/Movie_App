@@ -47,17 +47,28 @@ class DetailsScreenInfo extends StatelessWidget {
           ),
           BlocBuilder<MoviesCubit, MovieState>(
             builder: (context, state) {
+              if (state is MovieDetailsLoading) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                );
+              }
               if (state is MovieDetailsSuccess) {
                 genres = state.movieDetails;
                 log(genres.toString());
               }
 
-              if (state is MovieDetailsError) {
-                return CircularProgressIndicator(
-                  color: Colors.white,
-                );
-              }
-              return Row(
+              // if (state is MovieDetailsError) {
+              //   return Center(
+              //     child: CircularProgressIndicator(
+              //       color: Colors.white,
+              //     ),
+              //   );
+              // }
+              return genres.isEmpty ? Center(
+               child: Text('No Internet connection'),
+              ) :  Row(
                 children: [
                   Text(
                     'Genres:',

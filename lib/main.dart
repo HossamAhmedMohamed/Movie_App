@@ -12,7 +12,6 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(MovieModelAdapter());
   Hive.registerAdapter(GenreModelAdapter());
-
   runApp(MyApp());
 }
 

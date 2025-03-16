@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/connection/network_info.dart';
@@ -22,7 +20,7 @@ class MoviesCubit extends Cubit<MovieState> {
         moviesRepository: MoviesRepositoryImplementation(
             remoteDataSource: RemoteDataSource(sl<Dio>()),
             localDataSource: LocalDataSource(),
-            networkInfo: NetworkInfoImpl(sl<DataConnectionChecker>())),
+            networkInfo:  NetworkInfo()),
       ).getPopularMovies();
 
       emit(MovieSuccess(movies: await movies));
@@ -34,16 +32,17 @@ class MoviesCubit extends Cubit<MovieState> {
   void fetchMovieDetails(int id) async {
     try {
       emit(MovieDetailsLoading());
-      final movieDetails = GetDetailsMovie(
+      final movieDetails = await GetDetailsMovie(
         moviesRepository: MoviesRepositoryImplementation(
             remoteDataSource: RemoteDataSource(sl<Dio>()),
             localDataSource: LocalDataSource(),
-            networkInfo: NetworkInfoImpl(sl<DataConnectionChecker>())),
+            networkInfo: NetworkInfo()),
       ).getGenres(id);
       log('getMovieDetails successsssss');
-      emit(MovieDetailsSuccess(await movieDetails));
+      emit(MovieDetailsSuccess( movieDetails));
     } catch (e) {
-      emit(MovieDetailsError(e.toString()));
+      // emit(MovieDetailsError(e.toString()));
+      log(e.toString());
     }
   }
 }

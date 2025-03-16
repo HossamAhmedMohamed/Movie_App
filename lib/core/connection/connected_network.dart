@@ -1,4 +1,4 @@
-class ConnectedNetwork {
+// class ConnectedNetwork {
 
-  static  bool isConnected = true;
-}
+//   static  bool isConnected = true;
+// }

@@ -43,7 +43,9 @@ class _MoviesScreenState extends State<MoviesScreen> {
             movies = state.movies;
             log('${movies.length} movies}');
           }
-          return PopularMovies(movies: movies);
+          return movies.isEmpty ? Center(
+            child: Text('No Internet connection , please try again'),
+          ) : PopularMovies(movies: movies);
         },
       ),
     );
