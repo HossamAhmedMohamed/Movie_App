@@ -47,7 +47,6 @@ dependencies:
   data_connection_checker_tv: ^0.3.5-nullsafety
   go_router: ^14.8.1
   http: ^1.3.0
-  connectivity_plus: ^6.1.3
 
   
 

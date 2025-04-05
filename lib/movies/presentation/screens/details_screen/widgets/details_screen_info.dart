@@ -3,8 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/movies/data/models/genre_model.dart';
-import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_cubit.dart';
-import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_state.dart';
+import 'package:movie_app/movies/presentation/cubit/details_movie_cubit/details_movie_cubit.dart';
 import 'package:movie_app/movies/presentation/screens/details_screen/widgets/movies_details_descriptions.dart';
 
 class DetailsScreenInfo extends StatelessWidget {
@@ -45,7 +44,7 @@ class DetailsScreenInfo extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          BlocBuilder<MoviesCubit, MovieState>(
+          BlocBuilder<DetailsMovieCubit, DetailsMovieState>(
             builder: (context, state) {
               if (state is MovieDetailsLoading) {
                 return Center(
@@ -68,22 +67,25 @@ class DetailsScreenInfo extends StatelessWidget {
               // }
               return genres.isEmpty ? Center(
                child: Text('No Internet connection'),
-              ) :  Row(
-                children: [
-                  Text(
-                    'Genres:',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  SizedBox(width: 8),
-                  if (genres.isNotEmpty)
-                    ...genres.map((genre) => Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Text(
-                            genre.name,
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        )),
-                ],
+              ) :  SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Text(
+                      'Genres:',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    SizedBox(width: 8),
+                    if (genres.isNotEmpty)
+                      ...genres.map((genre) => Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Text(
+                              genre.name,
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          )),
+                  ],
+                ),
               );
             },
           ),

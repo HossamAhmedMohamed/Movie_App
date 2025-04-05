@@ -1,11 +1,14 @@
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:movie_app/core/services/dependencies/data_source_and_connections.dart';
+import 'package:movie_app/core/services/dependencies/init_core.dart';
+import 'package:movie_app/core/services/dependencies/init_repo.dart';
+import 'package:movie_app/core/services/dependencies/init_use_case.dart';
 
 final sl = GetIt.instance;
 
-void setupServiceLocator() {
-
-  sl.registerSingleton<Dio>(Dio());
-  sl.registerSingleton<DataConnectionChecker>(DataConnectionChecker());
+Future<void> setupServiceLocator() async {
+  await initCore();
+  await getDataSourcesAndConnections();
+  await initRepository();
+  await initUseCases();
 }
