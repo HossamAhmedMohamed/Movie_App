@@ -3,8 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/movies/data/models/genre_model.dart';
-import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_cubit.dart';
-import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_state.dart';
+import 'package:movie_app/movies/presentation/cubit/details_movie_cubit/details_movie_cubit.dart';
 import 'package:movie_app/movies/presentation/screens/details_screen/widgets/movies_details_descriptions.dart';
 
 class DetailsScreenInfo extends StatelessWidget {
@@ -45,7 +44,7 @@ class DetailsScreenInfo extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          BlocBuilder<MoviesCubit, MovieState>(
+          BlocBuilder<DetailsMovieCubit,  DetailsMovieState>(
             builder: (context, state) {
               if (state is MovieDetailsSuccess) {
                 genres = state.movieDetails;

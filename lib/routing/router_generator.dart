@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movie_app/movies/presentation/cubit/movie_cubit/movie_cubit.dart';
+import 'package:movie_app/core/services/service_locater.dart';
+import 'package:movie_app/movies/presentation/cubit/details_movie_cubit/details_movie_cubit.dart';
+import 'package:movie_app/movies/presentation/cubit/popular_movie_cubit/movie_cubit.dart';
 import 'package:movie_app/movies/presentation/screens/details_screen/details_screen.dart';
 import 'package:movie_app/movies/presentation/screens/popular_movies_screen/movies_screen.dart';
 import 'package:movie_app/routing/app_router.dart';
@@ -21,7 +23,7 @@ class RouterGenerator {
         path: AppRouter.popularMovieScreen,
         name: AppRouter.popularMovieScreen,
         builder: (context, state) => BlocProvider(
-          create: (context) => MoviesCubit(),
+          create: (context) => sl<MoviesCubit>(),
           child: MoviesScreen(),
         ),
       ),
@@ -31,7 +33,7 @@ class RouterGenerator {
           builder: (context, state) {
             final extra = state.extra as Map<String, dynamic>?;
             return BlocProvider(
-              create: (context) => MoviesCubit(),
+              create: (context) => sl<DetailsMovieCubit>(),
               child: DetailsScreen(
                 imgUrl: extra!['imgUrl'] ?? '',
                 title: extra['title'] ?? '',
