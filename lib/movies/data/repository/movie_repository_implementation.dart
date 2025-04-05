@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:movie_app/core/connection/connected_network.dart';
 import 'package:movie_app/core/connection/network_info.dart';
 import 'package:movie_app/movies/data/models/genre_model.dart';
 import 'package:movie_app/movies/domain/entities/movie_entity.dart';
@@ -21,8 +19,7 @@ class MoviesRepositoryImplementation extends MoviesRepository {
 
   @override
   Future<List<MovieEntity>> getPopularMovies() async {
-    if (await networkInfo.isConnected!) {
-      ConnectedNetwork.isConnected = true;
+    if (await networkInfo.isConnected) {
       try {
         final movies = await remoteDataSource.fetchPopularMovies();
         log('${movies.length} Remote');
@@ -33,7 +30,6 @@ class MoviesRepositoryImplementation extends MoviesRepository {
         throw Exception('Error: $e');
       }
     } else {
-      ConnectedNetwork.isConnected = false;
       try {
         final localMovies = await localDataSource.getCachedMovies();
         log('${localMovies.length} Local');
@@ -46,10 +42,10 @@ class MoviesRepositoryImplementation extends MoviesRepository {
 
   @override
   Future<List<GenreModel>> getMovieDetails(int id) async {
-    if ( ConnectedNetwork.isConnected == true) {
+    if (await networkInfo.isConnected) {
       try {
         final movieDetails = await remoteDataSource.getMovieDetails(id);
-        localDataSource.cacheDetailsMovies(movieDetails);
+        localDataSource.cacheDetailsMovies(id, movieDetails);
         return movieDetails;
       } catch (e) {
         log('Error: $e');
@@ -57,10 +53,12 @@ class MoviesRepositoryImplementation extends MoviesRepository {
       }
     } else {
       try {
-        final localDetails = await localDataSource.getDetailsCachedMovies();
+        final localDetails = await localDataSource.getDetailsCachedMovies(id);
         return localDetails;
       } catch (e) {
+        log(e.toString());
         throw Exception('Error: $e');
+        
       }
     }
   }

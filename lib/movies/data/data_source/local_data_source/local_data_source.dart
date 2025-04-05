@@ -23,22 +23,20 @@ class LocalDataSource {
     }
   }
 
-  Future<void> cacheDetailsMovies(List<GenreModel>? detailsMovies) async {
+  Future<void> cacheDetailsMovies(
+      int movieId, List<GenreModel>? detailsMovies) async {
     if (detailsMovies != null) {
-      final box = await Hive.openBox<GenreModel>('moviesDetailsBox');
-      await box.clear();
-      await box.addAll(detailsMovies);
+      final box = await Hive.openBox<List<GenreModel>>('moviesDetailsBox');
+      await box.put(
+          movieId.toString(), detailsMovies); // تخزين بناءً على movieId
     } else {
       throw Exception("No Internet Connection");
     }
   }
 
-  Future<List<GenreModel>> getDetailsCachedMovies() async {
-    final dynamic box = await Hive.openBox<GenreModel>('moviesDetailsBox');
-    if (box != null) {
-      return box.values.toList();
-    } else {
-      throw Exception("No Internet Connection");
-    }
+  Future<List<GenreModel>> getDetailsCachedMovies(int movieId) async {
+    final box = await Hive.openBox<List>('moviesDetailsBox');
+    return (box.get(movieId.toString(), defaultValue: []) as List)
+        .cast<GenreModel>();
   }
 }

@@ -9,5 +9,5 @@ Future<void> getDataSourcesAndConnections() async {
   sl.registerLazySingleton<LocalDataSource>(() => LocalDataSource());
 
   // Network Info
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfo());
 }

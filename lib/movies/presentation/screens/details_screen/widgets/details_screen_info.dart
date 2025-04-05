@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/movies/data/models/genre_model.dart';
@@ -44,19 +43,30 @@ class DetailsScreenInfo extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          BlocBuilder<DetailsMovieCubit,  DetailsMovieState>(
+          BlocBuilder<DetailsMovieCubit, DetailsMovieState>(
             builder: (context, state) {
+              if (state is MovieDetailsLoading) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                );
+              }
               if (state is MovieDetailsSuccess) {
                 genres = state.movieDetails;
                 log(genres.toString());
               }
 
-              if (state is MovieDetailsError) {
-                return CircularProgressIndicator(
-                  color: Colors.white,
-                );
-              }
-              return Row(
+              // if (state is MovieDetailsError) {
+              //   return Center(
+              //     child: CircularProgressIndicator(
+              //       color: Colors.white,
+              //     ),
+              //   );
+              // }
+              return genres.isEmpty ? Center(
+               child: Text('No Internet connection'),
+              ) :  Row(
                 children: [
                   Text(
                     'Genres:',

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/movies/domain/entities/movie_entity.dart';
 import 'package:movie_app/movies/presentation/cubit/popular_movie_cubit/movie_cubit.dart';
 import 'package:movie_app/movies/presentation/cubit/popular_movie_cubit/movie_state.dart';
+ 
 import 'package:movie_app/movies/presentation/screens/popular_movies_screen/widgets/movie_appbar.dart';
 import 'package:movie_app/movies/presentation/screens/popular_movies_screen/widgets/popular_movies.dart';
  
@@ -43,11 +44,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
             movies = state.movies;
             log('${movies.length} movies}');
           }
-          return PopularMovies(movies: movies);
+          return movies.isEmpty ? Center(
+            child: Text('No Internet connection , please try again'),
+          ) : PopularMovies(movies: movies);
         },
       ),
     );
   }
 }
-
-
